@@ -33,10 +33,11 @@ function CryptoDetails() {
     timePeriod,
   });
   const cryptoDetails = data?.data?.coin;
-  console.log(coinHistory);
-  if (isFetching) return 'loading...';
+  const valueKey = '24hVolume';
 
-  const time = ['3h', '24h', '7d', '30d', '1y', '3m', '3y', '5y'];
+  if (isFetching) return 'loading...';
+  console.log(coinHistory);
+  const time = ['3h', '24h', '7d', '30d', '3m', '1y', '3y', '5y'];
 
   const stats = [
     {
@@ -47,7 +48,7 @@ function CryptoDetails() {
     { title: 'Rank', value: cryptoDetails.rank, icon: <NumberOutlined /> },
     {
       title: '24h Volume',
-      value: `$ ${cryptoDetails.volume && millify(cryptoDetails.volume)}`,
+      value: `$ ${cryptoDetails[valueKey] && millify(cryptoDetails[valueKey])}`,
       icon: <ThunderboltOutlined />,
     },
     {
@@ -115,7 +116,11 @@ function CryptoDetails() {
           <Option key={date}>{date}</Option>
         ))}
       </Select>
-      <LineChart coinHistory={coinHistory} coinName={cryptoDetails.name} />
+      <LineChart
+        coinHistory={coinHistory}
+        coinName={cryptoDetails.name}
+        currentPrice={millify(cryptoDetails.price)}
+      />
       <Col className="stats-container">
         <Col className="coin-value-statistic">
           <Col className="coin-value-statistic-heading">

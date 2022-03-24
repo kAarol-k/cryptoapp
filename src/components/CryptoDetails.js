@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
-import HTMLReactParser from 'html-react-parser';
-import { useParams } from 'react-router-dom';
-import millify from 'millify';
-import { Col, Row, Typography, Select } from 'antd';
+import React, { useState } from "react";
+import HTMLReactParser from "html-react-parser";
+import { useParams } from "react-router-dom";
+import millify from "millify";
+import { Col, Row, Typography, Select } from "antd";
 import {
   MoneyCollectOutlined,
   DollarCircleOutlined,
@@ -14,50 +14,50 @@ import {
   NumberOutlined,
   ThunderboltOutlined,
   ConsoleSqlOutlined,
-} from '@ant-design/icons';
+} from "@ant-design/icons";
 import {
   useGetCryptoDetailsQuery,
   useGetCryptoHistoryQuery,
-} from '../services/cryptoApi';
-import LineChart from './LineChart';
+} from "../services/cryptoApi";
+import LineChart from "./LineChart";
 
 const { Title, Text } = Typography;
 const { Option } = Select;
 
 function CryptoDetails() {
   const { coinId } = useParams();
-  const [timePeriod, setTimeperiod] = useState('7d');
+  const [timePeriod, setTimeperiod] = useState("7d");
   const { data, isFetching } = useGetCryptoDetailsQuery(coinId);
   const { data: coinHistory } = useGetCryptoHistoryQuery({
     coinId,
     timePeriod,
   });
   const cryptoDetails = data?.data?.coin;
-  const valueKey = '24hVolume';
+  const valueKey = "24hVolume";
 
-  if (isFetching) return 'loading...';
+  if (isFetching) return "loading...";
   console.log(coinHistory);
-  const time = ['3h', '24h', '7d', '30d', '3m', '1y', '3y', '5y'];
+  const time = ["3h", "24h", "7d", "30d", "3m", "1y", "3y", "5y"];
 
   const stats = [
     {
-      title: 'Price to USD',
+      title: "Price to USD",
       value: `$ ${cryptoDetails.price && millify(cryptoDetails.price)}`,
       icon: <DollarCircleOutlined />,
     },
-    { title: 'Rank', value: cryptoDetails.rank, icon: <NumberOutlined /> },
+    { title: "Rank", value: cryptoDetails.rank, icon: <NumberOutlined /> },
     {
-      title: '24h Volume',
+      title: "24h Volume",
       value: `$ ${cryptoDetails[valueKey] && millify(cryptoDetails[valueKey])}`,
       icon: <ThunderboltOutlined />,
     },
     {
-      title: 'Market Cap',
+      title: "Market Cap",
       value: `$ ${cryptoDetails.marketCap && millify(cryptoDetails.marketCap)}`,
       icon: <DollarCircleOutlined />,
     },
     {
-      title: 'All-time-high(daily avg.)',
+      title: "All-time-high(daily avg.)",
       value: `$ ${millify(cryptoDetails.allTimeHigh.price)}`,
       icon: <TrophyOutlined />,
     },
@@ -65,17 +65,17 @@ function CryptoDetails() {
 
   const genericStats = [
     {
-      title: 'Number Of Markets',
+      title: "Number Of Markets",
       value: cryptoDetails.numberOfMarkets,
       icon: <FundOutlined />,
     },
     {
-      title: 'Number Of Exchanges',
+      title: "Number Of Exchanges",
       value: cryptoDetails.numberOfExchanges,
       icon: <MoneyCollectOutlined />,
     },
     {
-      title: 'Aprroved Supply',
+      title: "Aprroved Supply",
       value: cryptoDetails.approvedSupply ? (
         <CheckOutlined />
       ) : (
@@ -84,12 +84,12 @@ function CryptoDetails() {
       icon: <ExclamationCircleOutlined />,
     },
     {
-      title: 'Total Supply',
+      title: "Total Supply",
       value: `$ ${millify(cryptoDetails.supply.total)}`,
       icon: <ExclamationCircleOutlined />,
     },
     {
-      title: 'Circulating Supply',
+      title: "Circulating Supply",
       value: `$ ${millify(cryptoDetails.supply.circulating)}`,
       icon: <ExclamationCircleOutlined />,
     },
